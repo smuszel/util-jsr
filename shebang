@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+require('./replace');
+
+// console.log('#!/usr/bin/env node');
