@@ -1,0 +1,17 @@
+{
+    "name": "name",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "webpack --mode=production"
+    },
+    "dependencies": {
+        "yargs": "13.2.1",
+        "split": "1.0.1"
+    },
+    "devDependencies": {
+        "webpack": "4.29.5",
+        "webpack-cli": "3.2.3"
+    },
+    "author": "smuszel",
+    "license": "ISC"
+}
