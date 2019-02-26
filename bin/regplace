@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+
+const { resolve } = require('path');
+const fs = require('fs').promises;
+const argv = process.argv.slice(2);
+
+if (argv.some(a => a.includes('--help') || a.includes('-h'))) {
+    console.log('regplace $filepath $regex $captureGroupsReplacementsCsvArray');
+    process.exit();
+}
+
+const r = "\x1b[0m";
+const c = "\x1b[36m";
+const y = "\x1b[33m";
+
+const replacer = replacements => (substr, ...groups) => {
+    let res = substr;
+
+    groups.forEach((g, ix) => {
+        const gr = replacements[ix];
+        gr && (res = res.replace(g, gr));
+    });
+
+    console.log(`replaced ${y}${substr}${r} with ${c}${res}${r}`);
+
+    return res;
+};
+
+const regplace = async ({ filepath, regex, replacements }) => {
+    const source = await fs.readFile(filepath, 'utf8');
+    const output = source.replace(regex, replacer(replacements));
+
+    return fs.writeFile(filepath, output);
+}
+
+const opt = {
+    filepath: resolve(argv[0]),
+    regex: eval(`/${argv[1]}/`),
+    replacements: argv[2].split(',')
+}
+
+console.log(opt);
+regplace(opt);
